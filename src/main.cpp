@@ -22,8 +22,8 @@ constexpr uint32_t SIM_STEP = 100000;
 constexpr uint32_t SIM_BATCHES = 10;
 
 /* Window size in points, the panel is scaled to fit it */
-constexpr int WIN_WIDTH = 640;
-constexpr int WIN_HEIGHT = 480;
+constexpr int WIN_WIDTH = 800;
+constexpr int WIN_HEIGHT = 600;
 /* Window title update period, long enough to see several panel frames */
 constexpr uint32_t TITLE_MS = 500;
 
