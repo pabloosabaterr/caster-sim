@@ -127,8 +127,11 @@ void Sim::tick(Display &display) {
     /* Posedge */
     core->clk = 1;
     core->eval();
+    if (trace)
+        trace->dump(tickcount * 10);
 
-    /* Apply changed input signals after clock edge */
+    /* Negedge, apply changed input signals and let them propagate */
+    core->clk = 0;
     core->vin_vsync = video.vsync;
     core->vin_pixel = video.pixel;
     core->vin_valid = video.valid;
@@ -137,14 +140,6 @@ void Sim::tick(Display &display) {
     core->spi_cs = spi.cs;
     core->spi_sck = spi.sck;
     core->spi_mosi = spi.mosi;
-
-    /* Let combinational changes propagate */
-    core->eval();
-    if (trace)
-        trace->dump(tickcount * 10);
-
-    /* Negedge */
-    core->clk = 0;
     core->eval();
     if (trace)
         trace->dump(tickcount * 10 + 5);
