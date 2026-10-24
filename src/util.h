@@ -2,8 +2,10 @@
 #define UTIL_H
 
 #include <cstdarg>
+#include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <string_view>
 
 [[noreturn]] inline void die(const char *fmt, ...) {
     va_list args;
@@ -14,6 +16,8 @@
     va_end(args);
     std::exit(EXIT_FAILURE);
 }
+
+bool parse_u64(const std::string_view s, uint64_t *out);
 
 template <class... Ts> struct overloaded : Ts... {
     using Ts::operator()...;
