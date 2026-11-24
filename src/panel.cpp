@@ -81,6 +81,7 @@ void Panel::reset() {
     std::fill(localbuf.begin(), localbuf.end(), 0xff);
     line_valid = false;
     std::fill(speedbuf.begin(), speedbuf.end(), 0);
+    frame_count_ = 0;
 }
 
 void Panel::render(Display &display) {
