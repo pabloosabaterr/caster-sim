@@ -7,6 +7,12 @@
 #include <unordered_map>
 #include <vector>
 
+/*
+ * Side of the square texture the box source bounces around. The panel
+ * must be larger than it on both axes, or the box has no room to move.
+ */
+inline constexpr int BOX_SIZE = 20;
+
 enum class SourceType {
     BOX,
     FIXED_BORDER,
@@ -64,7 +70,7 @@ class VideoSource {
     int y_counter = 0;
     int frame_counter = 0;
     bool box_loaded = false;
-    uint8_t box_texture[20 * 20];
+    uint8_t box_texture[BOX_SIZE * BOX_SIZE];
     int box_x = 0;
     int box_y = 0;
     int box_dir = 0;
