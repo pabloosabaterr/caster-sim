@@ -155,6 +155,18 @@ int main(int argc, char *argv[]) {
     SourceType source_type = parse_choice("source", opt.source, SOURCE_TYPES);
     std::pair<uint64_t, uint64_t> res = parse_resolution(opt.resolution);
 
+    /*
+     * The box bounces between 0 and <dim> - BOX_SIZE - 1, which must be two
+     * different positions or it walks off the panel.
+     */
+    if (source_type == SourceType::BOX &&
+        (res.first < BOX_SIZE + 2 || res.second < BOX_SIZE + 2))
+        die("--source=box needs at least a %dx%d panel, got %llux%llu",
+            BOX_SIZE + 2,
+            BOX_SIZE + 2,
+            (unsigned long long)res.first,
+            (unsigned long long)res.second);
+
     std::optional<std::pair<uint64_t, uint64_t>> watch;
     if ((opt.watch_x == UINT64_MAX) != (opt.watch_y == UINT64_MAX))
         die("--watch-x and --watch-y must be used together");

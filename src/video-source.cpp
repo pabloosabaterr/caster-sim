@@ -66,8 +66,8 @@ VideoSource::VideoSource(SourceType source,
 
 void VideoSource::source_box() {
     std::fill(pixels.begin(), pixels.end(), 0xff);
-    bool xright = (box_x == width - 21);
-    bool ydown = (box_y == height - 21);
+    bool xright = (box_x == width - BOX_SIZE - 1);
+    bool ydown = (box_y == height - BOX_SIZE - 1);
     bool yup = (box_y == 0);
     bool xleft = (box_x == 0);
     if (box_dir == 0) {
@@ -126,15 +126,17 @@ void VideoSource::source_box() {
         int w, h, n;
         uint8_t *data = load_image("texture.jpg", &w, &h, &n);
         log_debug("Input image size %d x %d (%d channels)\n", w, h, n);
-        if (w != 20 || h != 20) {
+        if (w != BOX_SIZE || h != BOX_SIZE) {
             fprintf(stderr,
-                    "error: texture.jpg must be 20 x 20, got %d x %d\n",
+                    "error: texture.jpg must be %d x %d, got %d x %d\n",
+                    BOX_SIZE,
+                    BOX_SIZE,
                     w,
                     h);
             exit(EXIT_FAILURE);
         }
 
-        for (int i = 0; i < 20 * 20; i++) {
+        for (int i = 0; i < BOX_SIZE * BOX_SIZE; i++) {
             box_texture[i] = data[i * n];
         }
         box_loaded = true;
@@ -142,8 +144,8 @@ void VideoSource::source_box() {
     }
 
     uint32_t rptr = 0;
-    for (int i = box_y; i < box_y + 20; i++) {
-        for (int j = box_x; j < box_x + 20; j++) {
+    for (int i = box_y; i < box_y + BOX_SIZE; i++) {
+        for (int j = box_x; j < box_x + BOX_SIZE; j++) {
             pixels[i * width + j] = box_texture[rptr++];
         }
     }
